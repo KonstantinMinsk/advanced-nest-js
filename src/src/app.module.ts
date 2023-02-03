@@ -21,7 +21,7 @@ import { User } from './users/user.entity';
       username: 'postgres',
       password: 'postgres',
       database: 'advanced-course',
-      entities: [User],
+      entities: [__dirname + '/../**/*.entity{.ts,.js}'],
       synchronize: true,
     }),
     UsersModule,

@@ -8,13 +8,19 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
+import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger/dist';
 import { UserCreation } from './user.dto';
+import { User } from './user.entity';
 import { UsersService } from './users.service';
 
+@ApiTags('Users')
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @ApiOperation({ summary: 'Creating User' })
+  @ApiResponse({ status: 200, type: User })
   @Post()
   async createUser(@Body() userDto: UserCreation) {
     return this.usersService.createUser(userDto);
@@ -28,6 +34,8 @@ export class UsersController {
     return this.usersService.updateUser(id, userDto);
   }
 
+  @ApiOperation({ summary: 'Getting all users' })
+  @ApiResponse({ status: 200, type: [User] })
   @Get()
   async getAllUsers() {
     return this.usersService.getAllUsers();

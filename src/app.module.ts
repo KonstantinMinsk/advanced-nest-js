@@ -8,7 +8,7 @@ import { UsersModule } from './users/users.module';
 import { RolesModule } from './roles/roles.module';
 import { Roles } from './roles/roles.entity';
 import { UserRoles } from './roles/user-roles.entity';
-import { CoModule } from './auth/co.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -30,7 +30,7 @@ import { CoModule } from './auth/co.module';
     }),
     UsersModule,
     RolesModule,
-    CoModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],

@@ -3,8 +3,10 @@ import { ConfigModule } from '@nestjs/config';
 // import { ServeStaticModule } from '@nestjs/serve-static';
 import { TypeOrmModule } from '@nestjs/typeorm';
 // import * as path from 'path';
-import { User } from './src/users/user.entity';
-import { UsersModule } from './src/users/users.module';
+import { User } from './users/user.entity';
+import { UsersModule } from './users/users.module';
+import { RolesModule } from './roles/roles.module';
+import { Roles } from './roles/roles.entity';
 
 @Module({
   imports: [
@@ -21,10 +23,11 @@ import { UsersModule } from './src/users/users.module';
       username: 'postgres',
       password: 'postgres',
       database: 'advanced-course',
-      entities: [User],
+      entities: [User, Roles],
       synchronize: true,
     }),
     UsersModule,
+    RolesModule,
   ],
   controllers: [],
   providers: [],

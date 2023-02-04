@@ -1,5 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Roles } from 'src/roles/roles.entity';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToMany,
+  JoinColumn,
+} from 'typeorm';
 
 @Entity()
 export class User {
@@ -22,4 +29,8 @@ export class User {
   @ApiProperty({ example: false, description: 'Has the user been blocked?' })
   @Column({ default: false })
   blocked: boolean;
+
+  @ManyToMany(() => Roles, (role) => role.users)
+  @JoinColumn()
+  roles: Roles[];
 }

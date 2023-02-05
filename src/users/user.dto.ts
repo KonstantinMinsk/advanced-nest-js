@@ -8,6 +8,11 @@ class UserCreation {
   readonly password: string;
 }
 
+class AddRoleDto {
+  readonly value: string;
+  readonly userId: string;
+}
+
 interface IUser {
   id: number;
   name: string;
@@ -15,4 +20,4 @@ interface IUser {
   password: string;
 }
 
-export { UserCreation, IUser };
+export { UserCreation, IUser, AddRoleDto };

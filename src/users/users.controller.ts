@@ -12,7 +12,9 @@ import {
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { ApiTags } from '@nestjs/swagger/dist';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { UserCreation } from './user.dto';
+import { Roles } from 'src/auth/roles-auth.decorator';
+import { RolesGuard } from 'src/auth/roles.guards';
+import { AddRoleDto, UserCreation } from './user.dto';
 import { User } from './user.entity';
 import { UsersService } from './users.service';
 
@@ -38,12 +40,16 @@ export class UsersController {
 
   @ApiOperation({ summary: 'Getting all users' })
   @ApiResponse({ status: 200, type: [User] })
-  @UseGuards(JwtAuthGuard)
+  @Roles('Admin')
+  @UseGuards(RolesGuard)
+  // @UseGuards(JwtAuthGuard)
   @Get()
   async getAllUsers() {
     return this.usersService.getAllUsers();
   }
 
+  @Roles('User')
+  @UseGuards(RolesGuard)
   @Get(':id')
   async getUser(@Param('id', ParseIntPipe) id: number) {
     return this.usersService.getUser(id);
@@ -52,5 +58,12 @@ export class UsersController {
   @Delete(':id')
   async deletePost(@Param('id') id: string) {
     return this.usersService.removeUser(id);
+  }
+
+  @ApiOperation({ summary: 'Assign Role' })
+  @ApiResponse({ status: 200 })
+  @Post('/role')
+  async addRole(@Body() dto: AddRoleDto) {
+    return this.usersService.addRole(dto);
   }
 }

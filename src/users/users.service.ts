@@ -1,9 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Roles } from 'src/roles/roles.entity';
 import { RolesService } from 'src/roles/roles.service';
 import { Repository } from 'typeorm';
-import { UserCreation } from './user.dto';
+import { AddRoleDto, UserCreation } from './user.dto';
 import { User } from './user.entity';
 
 @Injectable()
@@ -43,7 +43,11 @@ export class UsersService {
   }
 
   async getAllUsers() {
-    return await this.usersRepository.find();
+    return await this.usersRepository.find({
+      // join: { alias: 'roles' },
+      // include: { all: true },
+      // relations: { roles: true },
+    });
   }
 
   async getUser(id: number): Promise<User> {
@@ -68,5 +72,22 @@ export class UsersService {
 
   async removeUser(id: string): Promise<void> {
     await this.usersRepository.delete({ id: Number(id) });
+  }
+
+  async addRole(dto: AddRoleDto) {
+    const user = await this.usersRepository.findOne({
+      where: { id: dto.userId },
+    });
+    const role = await this.rolesRepository.getRoleByValue(dto.value);
+
+    if (user && role) {
+      // await user.$add('roles', [role]);
+      return dto;
+    }
+
+    throw new HttpException(
+      'The user or role was not found',
+      HttpStatus.NOT_FOUND,
+    );
   }
 }

@@ -1,4 +1,5 @@
 {
   "singleQuote": true,
-  "trailingComma": "all"
+  "trailingComma": "all",
+  "target": "es2017"
 }

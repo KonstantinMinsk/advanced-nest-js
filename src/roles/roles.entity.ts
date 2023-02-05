@@ -15,7 +15,7 @@ export class Roles {
   id: number;
 
   @ApiProperty({ example: 'Manager', description: 'role of user' })
-  @Column()
+  @Column({ unique: true })
   value: string;
 
   @ApiProperty({
@@ -26,6 +26,7 @@ export class Roles {
   description: string;
 
   @ManyToMany(() => User, (user) => user.roles)
+  // @JoinColumn({ name: 'user_id' })
   @JoinColumn()
   users: User[];
 }

@@ -19,6 +19,9 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('/api/docs', app, document);
 
+  // Prohibit all endpoints
+  // app.useGlobalGuards(JwtAuthGuard);
+
   await app.listen(PORT, () => console.log(`Server started on port = ${PORT}`));
 }
 bootstrap();

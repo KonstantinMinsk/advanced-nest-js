@@ -7,7 +7,6 @@ import { User } from './users/user.entity';
 import { UsersModule } from './users/users.module';
 import { RolesModule } from './roles/roles.module';
 import { Roles } from './roles/roles.entity';
-import { UserRoles } from './roles/user-roles.entity';
 import { AuthModule } from './auth/auth.module';
 
 @Module({
@@ -25,7 +24,7 @@ import { AuthModule } from './auth/auth.module';
       username: 'postgres',
       password: 'postgres',
       database: 'advanced-course',
-      entities: [User, Roles, UserRoles],
+      entities: [User, Roles],
       synchronize: true,
     }),
     UsersModule,

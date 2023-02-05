@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Roles } from 'src/roles/roles.entity';
 import { RolesService } from 'src/roles/roles.service';
 import { Repository } from 'typeorm';
 import { UserCreation } from './user.dto';
@@ -15,10 +16,22 @@ export class UsersService {
 
   async createUser(dto: UserCreation) {
     const user = await this.usersRepository.create(dto);
-    const role = await this.rolesRepository.getRoleByValue('Admin');
-    // console.log(role);
+    // const isRole = await this.rolesRepository.createRole({
+    //   value: 'User',
+    //   description: 'Simple User without credentials',
+    // });
+    const isRole = await this.rolesRepository.getRoleByValue('User');
+
+    // console.log(isRole);
     // await user.$set('roles', [role.id]);
+    // user.roles = [role];
+
+    const role = new Roles();
+    role.value = 'User';
+    role.description = 'Simple User without credentials';
+
     user.roles = [role];
+
     return this.usersRepository.save(user);
   }
 
@@ -38,15 +51,18 @@ export class UsersService {
       where: {
         id,
       },
-      // include: { all: true },
     });
   }
 
   async getUserByEmail(email: string): Promise<User> {
+    // return this.usersRepository.findOne({
+    //   where: {
+    //     email,
+    //   },
+    // include: { all: true },
+    // });
     return this.usersRepository.findOne({
-      where: {
-        email,
-      },
+      where: { email },
     });
   }
 

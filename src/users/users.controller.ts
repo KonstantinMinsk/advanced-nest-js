@@ -7,9 +7,11 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { ApiTags } from '@nestjs/swagger/dist';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { UserCreation } from './user.dto';
 import { User } from './user.entity';
 import { UsersService } from './users.service';
@@ -36,6 +38,7 @@ export class UsersController {
 
   @ApiOperation({ summary: 'Getting all users' })
   @ApiResponse({ status: 200, type: [User] })
+  @UseGuards(JwtAuthGuard)
   @Get()
   async getAllUsers() {
     return this.usersService.getAllUsers();

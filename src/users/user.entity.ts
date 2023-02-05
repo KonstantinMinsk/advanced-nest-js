@@ -30,7 +30,7 @@ export class User {
   @Column({ default: false })
   blocked: boolean;
 
-  @ManyToMany(() => Roles, (role) => role.users)
+  @ManyToMany(() => Roles, (roles) => roles.users)
   @JoinColumn()
   roles: Roles[];
 }
